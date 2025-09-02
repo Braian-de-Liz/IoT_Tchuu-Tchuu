@@ -1,9 +1,23 @@
-# 🌐 IoT com Arduino: Sensores de Distância e Clima
+# 🌐 Sistemas de Sensores IoT para Ferroramas
 
-Projeto educacional de Internet das Coisas (IoT) com Arduino, desenvolvido para medir **distância**, **temperatura** e **umidade** em tempo real.  
-Ideal para automação residencial, monitoramento ambiental e protótipos de dispositivos inteligentes.
+Projeto de Internet das Coisas (IoT) desenvolvido para integrar **sensores inteligentes** em ambientes de ferroramas, com o objetivo de **monitorar e automatizar** aspectos físicos como distância, temperatura e umidade.
 
-> 🔬 Feito com: Arduino, HC-SR04, DHT11, Serial Monitor
+Este projeto faz parte do ecossistema do **[TCHUU-TCHUU](https://github.com/Braian-de-Liz/Tchuu-Tchuu)** — sistema de gerenciamento de ferroramas desenvolvido por alunos do SESI de Referência.
+
+> 🛠️ **Plataforma principal: ESP32** (não Arduino)  
+> 📡 Comunicação via Wi-Fi, ideal para integração com backends e dashboards em tempo real
+
+---
+
+## 🚆 Aplicação no TCHUU-TCHUU
+
+Esses sensores serão usados para:
+- 📏 Detectar obstáculos nos trilhos (evitando colisões)
+- 🌡️ Monitorar temperatura dentro do cenário (segurança e conforto)
+- 💧 Controlar umidade em efeitos climáticos (chuva, névoa)
+- 🔄 Enviar dados em tempo real para o dashboard do sistema
+
+👉 Tudo integrado ao **backend Node.js + WebSocket** do projeto.
 
 ---
 
@@ -11,7 +25,8 @@ Ideal para automação residencial, monitoramento ambiental e protótipos de dis
 
 - 📏 Medição de distância com sensor ultrassônico (HC-SR04)
 - 🌡️ Leitura de temperatura e umidade com DHT11
-- 📊 Saída de dados via Serial Monitor
+- 📶 Transmissão de dados via Wi-Fi (ESP32)
+- 📊 Envio automático para servidores web ou dashboard
 - 🧠 Classificação de distância: **perto**, **médio**, **longe**
 
 ---
@@ -20,15 +35,17 @@ Ideal para automação residencial, monitoramento ambiental e protótipos de dis
 
 | Componente | Função |
 |----------|--------|
-| 🎛️ Arduino (Uno/Mega) | Placa de controle |
+| 📡 **ESP32** | Placa principal com Wi-Fi e Bluetooth (substitui o Arduino) |
 | 📏 HC-SR04 | Sensor de distância ultrassônico |
 | 🌡️ DHT11 | Sensor de temperatura e umidade |
 | 🔌 Jumpers e Protoboard | Conexões |
-| 🔋 Fonte de alimentação | Energia para o circuito |
+| 🔋 Fonte de alimentação | Energia estável para o circuito |
+
+> ✅ O **ESP32** é o coração do sistema: permite comunicação direta com o backend, sem depender de Serial ou computador.
 
 ---
 
-## 📄 Código: Sensor de Distância (HC-SR04)
+## 📄 Código: Sensor de Distância (HC-SR04) – ESP32
 
 ```cpp
 const byte echo_pin = 22;
@@ -39,7 +56,7 @@ unsigned long tempo = 0;
 void setup() {
   pinMode(echo_pin, INPUT);
   pinMode(trigg_pin, OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(115200); // Velocidade maior para Wi-Fi
 }
 
 void loop() {
