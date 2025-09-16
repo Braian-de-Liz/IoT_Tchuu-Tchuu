@@ -1,46 +1,51 @@
-const byte pinos_leds[4] = {7, 6, 5, 4};
+const int LDR_PIN = 34;        
+const int POT_COR_PIN = 35;    
+const int POT_INT_PIN = 32;    
+const int LED_R = 25; 
+const int LED_G = 26;  
+const int LED_B = 27;  
 
-const byte pino_botao_inc = 8;
-const byte pino_botao_dec = 9;
-
-
-bool estado_botao_inc = false;
-bool estado_botao_dec = false;
-
-byte count = 0;
-String binario = "";
+const int LIMIAR_ESCURO = 2000;
 
 void setup() {
-  for (int i = 0; i < 4; i++) {
-    pinMode(pinos_leds[i], OUTPUT);
-  }
-  pinMode(pino_botao_inc, INPUT_PULLUP);
-  pinMode(pino_botao_dec, INPUT_PULLUP);
+  Serial.begin(115200);
+
+  pinMode(LED_R, OUTPUT);
+  pinMode(LED_G, OUTPUT);
+  pinMode(LED_B, OUTPUT);
+
+  analogWrite(LED_R, 0);
+  analogWrite(LED_G, 0);
+  analogWrite(LED_B, 0);
 }
 
 void loop() {
-  estado_botao_inc = !digitalRead(pino_botao_inc);
-  if (estado_botao_inc == true && count < 15) {
-    delay(100);
-    count++;
+  int luminosidade = analogRead(LDR_PIN);
+  int potCor = analogRead(POT_COR_PIN);
+  int potInt = analogRead(POT_INT_PIN);
+
+  Serial.print("Luminosidade: ");
+  Serial.print(luminosidade);
+  Serial.print(" | PotCor: ");
+  Serial.print(potCor);
+  Serial.print(" | PotInt: ");
+  Serial.println(potInt);
+
+  if (luminosidade < LIMIAR_ESCURO) {
+
+    int intensidade = map(potInt, 0, 4095, 0, 255);
+    int nivelVermelho = map(potCor, 0, 4095, 0, intensidade);
+    int nivelAzul = intensidade - nivelVermelho;
+
+    analogWrite(LED_R, nivelVermelho);
+    analogWrite(LED_G, 0);  // não usamos verde
+    analogWrite(LED_B, nivelAzul);
+
+  } else {
+    analogWrite(LED_R, 0);
+    analogWrite(LED_G, 0);
+    analogWrite(LED_B, 0);
   }
 
-  estado_botao_dec = !digitalRead(pino_botao_dec);
-  if (estado_botao_dec == true && count < 0) {
-    delay(100);
-    count--;
-  }
-  binario = String(count, BIN);
-  while (binario.length() < 4) {
-    binario = "0"   + binario;
-  }
-  for (int i = 0; i < 4; i++) {
-    if (binario[i] == '1') {
-
-      digitalWrite(pinos_leds[i], HIGH);
-    }
-    else {
-      digitalWrite(pinos_leds[i], LOW);
-    }
-  }
+  delay(100);
 }
