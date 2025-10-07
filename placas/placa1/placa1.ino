@@ -1,8 +1,8 @@
 #include <WiFi.h>
 
 WiFiClient client;
-const String SSID = "Nome da Rede";
-const String PASS = "senha da Rede";
+const String SSID = "FIESC_IOT_EDU";
+const String PASS = "8120gv08";
 
 
 void setup() {
