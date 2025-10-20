@@ -9,6 +9,7 @@ const String PASS = "8120gv08";
 
 const String brokerURL = "test.mosquitto.org";
 const int brokerPort = 1883;
+const String topic = "TchuuTchuu";
 
 const String brokerUser = "";
 const String brokerPass = "";
@@ -22,13 +23,14 @@ void setup() {
     delay(200);
      }
 
+
 Serial.println("Conectado com sucesso!");
 mqtt.setServer(brokerURL.c_str(),brokerPort);
 String clientID = "S1-" ; // criando um id unico e aleatorio
 clientID += String(random(0xffff),HEX);
 while(mqtt.connect(clientID.c_str())  == 0){  // tentativa de conetar,  0 = não conectado, 1 = conectado
   Serial.print(".");
-  delay(200);c:\Users\guilherme_js_silva\Desktop\IoT_Tchuu-Tchuu\placas\PlacaDavi.ino
+  delay(200);
     
  }
    Serial.println("\nConectado ao broker!");
@@ -38,11 +40,20 @@ void loop() {
   String mensagem = ""; // cria dentro do loop para recriala toda vez que rodar o programa
   if(Serial.available()> 0 ){  // checagem se tem palavras na "fila de espera", se tiver alguma palavra faça
    mensagem = Serial.readStringUntil('/n');    // salva a palavra digitada / lê a mensagem do usuario
-    mensagem = "Guilherme:" + mensagem; 
+    mensagem = "Davi:" + mensagem; 
   // Serial.print("A mensagem foi: ");
   // Serial.println(mensagem);
-    mqtt.publish("AulaDSM6", mensagem.c_str());
+    mqtt.publish("TchuuTchuu2", mensagem.c_str());
   };  
 
   mqtt.loop();
+}
+
+void callback(char* topic, byte* payload, unsigned long length) {
+  String MensagemRecebida = "";
+ for(int i = 0; i < length; i++) {
+  //Pega cada letra de payload e junta na mensagem
+  MensagemRecebida += (char) payload[i];
+ }
+ Serial.println(MensagemRecebida);
 }
