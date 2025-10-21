@@ -1,14 +1,13 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include "env.h"
 
 WiFiClient client;
 PubSubClient mqtt(client);
 
-const String SSID = "FIESC_IOT_EDU";
-const String PASS = "8120gv08";
 
-const String brokerURL = "test.mosquitto.org";
-const int brokerPort = 1883;
+
+
 const String topic = "TchuuTchuu";
 
 const String brokerUser = "";
@@ -16,7 +15,7 @@ const String brokerPass = "";
 
 void setup() {
   Serial.begin(115200); // configura a placa para monstrar na tela 
-  WiFi.begin(SSID, PASS); //tenta conectar na rede
+  WiFi.begin(WIFI_SSID, WIFI_PASS); //tenta conectar na rede
   Serial.println("Conectado a rede");
   while(WiFi.status() != WL_CONNECTED){
     Serial.print(".");
