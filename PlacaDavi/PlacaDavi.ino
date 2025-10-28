@@ -1,8 +1,9 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include "env.h"
+#include <WiFiClientSecure.h>
 
-WiFiClient client;
+WiFiClientSecure client;
 PubSubClient mqtt(client);
 
 
@@ -17,6 +18,7 @@ void setup() {
   Serial.begin(115200); // configura a placa para monstrar na tela 
   WiFi.begin(WIFI_SSID, WIFI_PASS); //tenta conectar na rede
   Serial.println("Conectado a rede");
+  client.setInsecure();
   while(WiFi.status() != WL_CONNECTED){
     Serial.print(".");
     delay(200);
