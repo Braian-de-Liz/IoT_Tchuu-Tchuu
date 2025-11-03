@@ -1,18 +1,10 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 
+#include "env.h";
+
 WiFiClient client;
 PubSubClient mqtt(client);
-
-const String SSID = "FIESC_IOT_EDU";
-const String PASS = "8120gv08";
-
-const String brokerURL = "test.mosquitto.org";
-const int brokerPort = 1883;
-const String topic = "TchuuTchuu";
-
-const String brokerUser = "";
-const String brokerPass = "";
 
 void setup() {
   Serial.begin(115200); // configura a placa para monstrar na tela 
@@ -43,14 +35,14 @@ void loop() {
     mensagem = "Guilherme:" + mensagem; 
   // Serial.print("A mensagem foi: ");
   // Serial.println(mensagem);
-    mqtt.publish("TchuuTchuu", mensagem.c_str());
+    mqtt.publish(Ponte-H, mensagem.c_str());
   };  
 
   mqtt.loop();
 }
 
 void callback(char* topic, byte* payload, unsigned long length) {   // perguntar ao professor pq unsigned long ou inves de unsigned int
-  String MensagemRecebida = "";
+  String MensagemRecebida = ""; 
 
   for(int i = 0; i < length; i++) { //Pega cada letra de payload e junta na mensagem
   MensagemRecebida += (char) payload[i];
