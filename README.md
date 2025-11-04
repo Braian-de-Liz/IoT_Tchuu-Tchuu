@@ -47,7 +47,7 @@ Esses sensores serão usados para:
 
 ## 📄 Código: Sensor de Distância (HC-SR04) – ESP32
 
-```cpp
+```CPP
 const byte echo_pin = 22;
 const byte trigg_pin = 23;
 int distancia = 0;
