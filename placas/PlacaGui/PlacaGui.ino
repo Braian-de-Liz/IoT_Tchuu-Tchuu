@@ -3,6 +3,7 @@
 #include "env.h"
 #include <WiFiClientSecure.h>
 
+<<<<<<< HEAD:placas/PlacaGui/PlacaGui.ino
 WiFiClientSecure client;
 PubSubClient mqtt(client);
 
@@ -41,16 +42,20 @@ void loop() {
     mensagem = "Guilherme :" + mensagem; 
   // Serial.print("A mensagem foi: ");
   // Serial.println(mensagem);
-    mqtt.publish("TchuuTchuu2", mensagem.c_str());
+
+    mqtt.publish(Ponte-H, mensagem.c_str());
+
   };  
 
   mqtt.loop();
 }
 
+<<<<<<< HEAD:placas/PlacaGui/PlacaGui.ino
 void callback(char* topic, byte* payload, unsigned long length) {
   String MensagemRecebida = "";
  for(int i = 0; i < length; i++) {
   //Pega cada letra de payload e junta na mensagem
+  
   MensagemRecebida += (char) payload[i];
  }
  Serial.println(MensagemRecebida);
