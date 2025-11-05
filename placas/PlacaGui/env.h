@@ -18,6 +18,6 @@
 #define Topic_S1_Temp "Tchuu-Tchuu/S1/Temp"
 #define Topic_S1_Umid  "Tchuu-Tchuu/S1/Umid"
 #define Topic_S1_Presenca "Tchuu-Tchuu/S1/Presenca"
-#define Topic_S1_Iluminacao "Tchuu-Tchuu/S1/Ilumina"
+#define Topic_S1_Iluminacao "Topic/S1/Iluminacao"
 
 #endif 
