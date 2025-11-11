@@ -10,7 +10,7 @@
 #define DHTTYPE DHT11  // DHT , sensor tem temp e umidade
 DHT dht(pinDHT, DHTTYPE);
 
-const byte ledPin = 2;
+const byte ledPin = 19;
 
 WiFiClientSecure client;
 PubSubClient mqtt(client);
@@ -20,8 +20,16 @@ PubSubClient mqtt(client);
 const byte LDR_PIN = 34;
 
 // Sensor de distancia
-const byte TRIGGER_PIN = 5;
-const byte ECHO_PIN = 18;
+const byte TRIGGER_PIN = 22;
+const byte ECHO_PIN = 23;
+
+
+//Pino RGB
+
+const byte PWM_CHANNEL_LED_R = 14 ;
+const byte PWM_CHANNEL_LED_G = 26 ;
+const byte PWM_CHANNEL_LED_B = 25 ;
+
 
 void setup() {
   Serial.begin(115200);              // configura a placa para monstrar na tela
@@ -125,6 +133,44 @@ void loop() {
   float u = dht.readHumidity();
   mqtt.publish(Topic_S1_Umid, String(u).c_str());
 }
+
+// configuração do LED RGB
+
+void statusLED(byte status) {
+    turnOffLEDs();
+    switch (status) {
+    case 254:  // Erro (Vermelho)
+        setLEDColor(255, 0, 0);
+        break;
+    case 1:  // Conectando ao Wi-Fi (Amarelo)
+        setLEDColor(150, 255, 0);
+        break;
+    case 2:  // Conectando ao MQTT (Rosa)
+        setLEDColor(150, 0, 255);
+        break;
+    case 3:  // Movendo para frente (Verde)
+        setLEDColor(0, 255, 0);
+        break;
+    case 4:  // Movendo para trás (Ciano)
+        setLEDColor(0, 255, 255);
+        break;
+    default:
+        for (byte i = 0; i < 4; i++) {
+            setLEDColor(0, 0, 255);  // erro no status (pisca azul)
+            delay(100);
+            turnOffLEDs();
+            delay(100);
+        }
+        break;
+    }
+}
+void turnOffLEDs() { setLEDColor(0, 0, 0); }
+void setLEDColor(byte r, byte g, byte b) {
+    ledcWrite(PWM_CHANNEL_LED_R, r);
+    ledcWrite(PWM_CHANNEL_LED_G, g);
+    ledcWrite(PWM_CHANNEL_LED_B, b);
+}
+
 
 
 // Receber topico da iluminação
