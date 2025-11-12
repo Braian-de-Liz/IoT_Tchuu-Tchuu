@@ -8,8 +8,8 @@
 #define BROKER_URL "hivemq.webclient.1762258808551"
 #define BROKER_PORT 8883
 // -------Login criado para cada usuario no HiveMQ -------
-#define BROKER_USR_ID "Placa_1"
-#define BROKER_USR_PASS "Aa_11111"
+#define BROKER_USR_ID "Placa_2"
+#define BROKER_USR_PASS "Aa_22222"
 
 //    ----A partir daqui depende da placa----
 

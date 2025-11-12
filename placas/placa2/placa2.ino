@@ -1,5 +1,5 @@
 #include <Wifi.h>
-#Qinclude < PubSubClient.h>
+#include < PubSubClient.h>
 #include "env.h"
 #include <WifiClientSecure.h>
 
@@ -7,6 +7,11 @@ WifiClientSecure client;
 PubSubClient mqtt(client);
 
 
+const byte Trigger_1 = 5;
+const byte echo_1 = 18;
+
+const byte Trigger_2 = 4;
+const byte echo_2 = 17;
 
 
 
@@ -37,7 +42,19 @@ void setup() {
   Serial.println("\nConectado ao broker!");
   mqtt.setCallback(callback);
 
+  pinMode(Trigger_1, OUTPUT);
+  pinMode(Trigger_2, OUTPUT);
+  pinMode(echo_1, INPUT);
+  pinMode(echo_2, INPUT);
+
 }
+
+long lerDistancia1(){
+  digitalWrite(trigger_1,LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigger_1,HIGH);
+}
+
 
 void loop() {
   // 
