@@ -1,4 +1,4 @@
-/Placa1/env.h
-/Placa2/env.h
-/Placa3/env.h
-/PlacaGui/env.h
+placas/Placa1/env.h
+placas/Placa2/env.h
+placas/Placa3/env.h
+placas/PlacaGui/env.h
