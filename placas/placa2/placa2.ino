@@ -6,12 +6,14 @@
 WifiClientSecure client;
 PubSubClient mqtt(client);
 
+NEW SKETCH
+
 
 const byte Trigger_1 = 5;
 const byte echo_1 = 18;
 
 const byte Trigger_2 = 4;
-const byte echo_2 = 17;
+const byte echo_2 = 17; 
 
 
 
@@ -36,6 +38,8 @@ void setup() {
     delay(200);
   }
 
+//topicos 
+
   mqtt.subscribe(Topic_S2_Presenca1);
   mqtt.subscribe(Topic_S2_Presenca2);
 
@@ -56,8 +60,48 @@ long lerDistancia1(){
 }
 
 
+long lerDistancia1() {
+  digitalWrite(TRIGGER_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIGGER_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIGGER_PIN, LOW);
+  long duracao = pulseIn(ECHO_PIN, HIGH);
+  long distancia = duracao * 349.24 / 2 / 10000;
+  return distancia;
+}
+
+
+long lerDistancia2() {
+  digitalWrite(TRIGGER_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIGGER_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIGGER_PIN, LOW);
+  long duracao = pulseIn(ECHO_PIN, HIGH);
+  long distancia = duracao * 349.24 / 2 / 10000;
+  return distancia;
+}
+
+
 void loop() {
-  // 
+  long distancia1 = lerDistancia1();
+   long distancia2 = lerDistancia2();
+
+
+  if (distancia1 < 50) {
+    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1:  Em rota de Colisão !!!");
+  } else {
+    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1: Caminho Livre");
+  }
+
+
+  if (distancia2 < 50) {
+    mqtt.publish(Topic_S2_Presenca2, "S2 - Presença 2: Em rota de Colisão !!!");
+  } else {
+    mqtt.publish(Topic_S2_Presenca2, "S2 - Presença 2: Caminho Livre");
+  }
+
 }
 
 
@@ -70,6 +114,7 @@ void callback(char* topic, byte* payload, unsigned long length) {
   Serial;
   println(MensagemRecebida);
 
+//ligar luz
   if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Claro") {
     digitalWrite(ledPin, HIGH);  // acender led
   } else if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Escuro") {

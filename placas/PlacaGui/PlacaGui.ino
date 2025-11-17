@@ -46,7 +46,7 @@ void setup() {
   mqtt.setServer(BROKER_URL, BROKER_PORT);
   String clientID = "S1-";  // criando um id unico e aleatorio
   clientID += String(random(0xffff), HEX);
-  while (mqtt.connect(clientID.c_str(),BROKER_USR_ID, BROKER_USR_PASS) == 0) {  // tentativa de conetar,  0 = não conectado, 1 = conectado
+  while (mqtt.connect(clientID.c_str(), BROKER_USR_ID, BROKER_USR_PASS) == 0) {  // tentativa de conetar,  0 = não conectado, 1 = conectado
     clientID += String(random(0xffff), HEX);
     Serial.println(mqtt.state());
     // Serial.print(".");
@@ -129,11 +129,9 @@ void loop() {
 
   mqtt.loop();
   delay(2000);
-
-
 }
 
-// configuração do LED RGB
+// configuração do LED RGB , código do professor
 
 void statusLED(byte status) {
   turnOffLEDs();
@@ -184,12 +182,10 @@ void callback(char* topic, byte* payload, unsigned long length) {
   Serial.println(MensagemRecebida);
 
   if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Claro") {
-    digitalWrite(ledPin, LOW);  
+    digitalWrite(ledPin, LOW);
     Serial.println("luz ");
   } else if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Escuro") {
     digitalWrite(ledPin, HIGH);
-        Serial.println("chegou aqui");
-
-
+    Serial.println("chegou aqui");
   }
 }
