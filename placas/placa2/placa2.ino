@@ -1,9 +1,9 @@
-#include <Wifi.h>
-#include < PubSubClient.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
 #include "env.h"
-#include <WifiClientSecure.h>
+#include <WiFiClientSecure.h>
 
-WifiClientSecure client;
+WiFiClientSecure client;
 PubSubClient mqtt(client);
 
 const byte Trigger_1 = 5;
@@ -12,7 +12,7 @@ const byte echo_1 = 18;
 const byte Trigger_2 = 4;
 const byte echo_2 = 19; 
 
-const byte ledPin = 6
+const byte ledPin = 21;
 
 
 void setup() {
@@ -40,7 +40,7 @@ void setup() {
 
   mqtt.subscribe(Topic_S2_Presenca1);
   mqtt.subscribe(Topic_S2_Presenca2);
- mqtt.subscribe(Topic/S1/Iluminacao);
+ mqtt.subscribe(Topic_S1_Iluminacao);
 
 
 
@@ -63,7 +63,7 @@ long lerDistancia1() {
   delayMicroseconds(10);
   digitalWrite(Trigger_1, LOW);
   long duracao = pulseIn(echo_1, HIGH);
-  long distancia = duracao * 349.24 / 2 / 10000;
+  long distancia1 = duracao * 349.24 / 2 / 10000;
   return distancia1;
 }
 
@@ -75,7 +75,7 @@ long lerDistancia2() {
   delayMicroseconds(10);
   digitalWrite(Trigger_2, LOW);
   long duracao = pulseIn(echo_2, HIGH);
-  long distancia = duracao * 349.24 / 2 / 10000;
+  long distancia2 = duracao * 349.24 / 2 / 10000;
   return distancia2;
 }
 
@@ -102,17 +102,19 @@ void loop() {
 
 
 void callback(char* topic, byte* payload, unsigned long length) {
-  String MensagemRecebida = "";
 
-  for (int = 0; i < length; i++) {
+  String MensagemRecebida = "";
+  for (int i = 0; i < length; i++) {  //Pega cada letra de payload e junta na mensagem
     MensagemRecebida += (char)payload[i];
   }
-  Serial.println(MensagemRecebida);
+  Serial.printf("Msg:%s / Topic%s\n",MensagemRecebida,topic);
 
-//ligar luz
-  if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Claro") {
-    digitalWrite(ledPin, HIGH);  // acender led
-  } else if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Escuro") {
+  if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Escuro") {
+    digitalWrite(ledPin, HIGH);
+    Serial.println("luz ");
+  } else if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Claro") {
     digitalWrite(ledPin, LOW);
+    Serial.println("chegou aqui");
   }
 }
+

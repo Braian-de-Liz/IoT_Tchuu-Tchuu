@@ -5,7 +5,7 @@
 #define WIFI_PASS "8120gv08"
 
 
-#define BROKER_URL "hivemq.webclient.1762258808551"
+#define BROKER_URL "0c43d25021a44f4bb60d2fdf1ad7fe29.s1.eu.hivemq.cloud"
 #define BROKER_PORT 8883
 // -------Login criado para cada usuario no HiveMQ -------
 #define BROKER_USR_ID "Placa2"
