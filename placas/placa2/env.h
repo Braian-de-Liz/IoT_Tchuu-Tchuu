@@ -13,7 +13,9 @@
 
 //    ----A partir daqui depende da placa----
 
-#define   Topic_S2_Presenca1
-#define Topic_S2_Presenca2
+#define   Topic_S2_Presenca1  "Topic/S2/Presenca1"
+#define Topic_S2_Presenca2  "Topic/S2/Presenca2"
+#define Topic_S1_Iluminacao "Topic/S1/Iluminacao"
+
 
 #endif

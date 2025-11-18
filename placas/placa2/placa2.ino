@@ -6,15 +6,13 @@
 WifiClientSecure client;
 PubSubClient mqtt(client);
 
-NEW SKETCH
-
-
 const byte Trigger_1 = 5;
 const byte echo_1 = 18;
 
 const byte Trigger_2 = 4;
-const byte echo_2 = 17; 
+const byte echo_2 = 19; 
 
+const byte ledPin = 6
 
 
 void setup() {
@@ -42,6 +40,9 @@ void setup() {
 
   mqtt.subscribe(Topic_S2_Presenca1);
   mqtt.subscribe(Topic_S2_Presenca2);
+ mqtt.subscribe(Topic/S1/Iluminacao);
+
+
 
   Serial.println("\nConectado ao broker!");
   mqtt.setCallback(callback);
@@ -53,46 +54,41 @@ void setup() {
 
 }
 
-long lerDistancia1(){
-  digitalWrite(trigger_1,LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigger_1,HIGH);
-}
 
 
 long lerDistancia1() {
-  digitalWrite(TRIGGER_PIN, LOW);
+  digitalWrite(Trigger_1, LOW);
   delayMicroseconds(2);
-  digitalWrite(TRIGGER_PIN, HIGH);
+  digitalWrite(Trigger_1, HIGH);
   delayMicroseconds(10);
-  digitalWrite(TRIGGER_PIN, LOW);
-  long duracao = pulseIn(ECHO_PIN, HIGH);
+  digitalWrite(Trigger_1, LOW);
+  long duracao = pulseIn(echo_1, HIGH);
   long distancia = duracao * 349.24 / 2 / 10000;
-  return distancia;
+  return distancia1;
 }
 
 
 long lerDistancia2() {
-  digitalWrite(TRIGGER_PIN, LOW);
+  digitalWrite(Trigger_2, LOW);
   delayMicroseconds(2);
-  digitalWrite(TRIGGER_PIN, HIGH);
+  digitalWrite(Trigger_2, HIGH);
   delayMicroseconds(10);
-  digitalWrite(TRIGGER_PIN, LOW);
-  long duracao = pulseIn(ECHO_PIN, HIGH);
+  digitalWrite(Trigger_2, LOW);
+  long duracao = pulseIn(echo_2, HIGH);
   long distancia = duracao * 349.24 / 2 / 10000;
-  return distancia;
+  return distancia2;
 }
 
 
 void loop() {
   long distancia1 = lerDistancia1();
-   long distancia2 = lerDistancia2();
+  long distancia2 = lerDistancia2();
 
 
   if (distancia1 < 50) {
-    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1:  Em rota de Colisão !!!");
+    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1:  Em rota de Colisão !!!(1)");
   } else {
-    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1: Caminho Livre");
+    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1: Caminho Livre(0)");
   }
 
 
@@ -111,8 +107,7 @@ void callback(char* topic, byte* payload, unsigned long length) {
   for (int = 0; i < length; i++) {
     MensagemRecebida += (char)payload[i];
   }
-  Serial;
-  println(MensagemRecebida);
+  Serial.println(MensagemRecebida);
 
 //ligar luz
   if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Claro") {

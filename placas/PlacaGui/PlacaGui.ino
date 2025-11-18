@@ -125,6 +125,7 @@ void loop() {
   }
   // Publicação da Umidade
   float u = dht.readHumidity();
+
   mqtt.publish(Topic_S1_Umid, String(u).c_str());
 
   mqtt.loop();
@@ -181,10 +182,10 @@ void callback(char* topic, byte* payload, unsigned long length) {
   }
   Serial.println(MensagemRecebida);
 
-  if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Claro") {
+  if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Escuro") {
     digitalWrite(ledPin, LOW);
     Serial.println("luz ");
-  } else if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Escuro") {
+  } else if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Claro") {
     digitalWrite(ledPin, HIGH);
     Serial.println("chegou aqui");
   }
