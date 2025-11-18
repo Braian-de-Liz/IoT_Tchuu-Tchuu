@@ -10,7 +10,7 @@
 #define DHTTYPE DHT11  // DHT , sensor tem temp e umidade
 DHT dht(pinDHT, DHTTYPE);
 
-const byte ledPin = 19;
+const byte ledPin = 2;
 
 WiFiClientSecure client;
 PubSubClient mqtt(client);
@@ -40,7 +40,7 @@ void setup() {
     Serial.print(".");
     delay(200);
   }
-
+  
   Serial.println("Conectado com sucesso!");
 
   mqtt.setServer(BROKER_URL, BROKER_PORT);
@@ -101,11 +101,12 @@ void loop() {
   // Publicação da Iluminação
 
   int luz = map(analogRead(pinLDR), 0, 4095, 0, 100);
-  if (luz > 500) {
-    mqtt.publish(Topic_S1_Iluminacao, "Claro");
-  } else {
+  if (luz > 70) {
     mqtt.publish(Topic_S1_Iluminacao, "Escuro");
+  } else {
+    mqtt.publish(Topic_S1_Iluminacao, "Claro");
   }
+  Serial.println(luz);
   // Publicação da Presença
   long distancia = lerDistancia();
 
@@ -129,11 +130,11 @@ void loop() {
   mqtt.publish(Topic_S1_Umid, String(u).c_str());
 
   mqtt.loop();
-  delay(2000);
+  delay(500);
 }
 
 // configuração do LED RGB , código do professor
-
+/* 
 void statusLED(byte status) {
   turnOffLEDs();
   switch (status) {
@@ -170,7 +171,7 @@ void setLEDColor(byte r, byte g, byte b) {
   ledcWrite(PWM_CHANNEL_LED_G, g);
   ledcWrite(PWM_CHANNEL_LED_B, b);
 }
-
+ */
 
 
 // Receber topico da iluminação
@@ -180,13 +181,13 @@ void callback(char* topic, byte* payload, unsigned long length) {
   for (int i = 0; i < length; i++) {  //Pega cada letra de payload e junta na mensagem
     MensagemRecebida += (char)payload[i];
   }
-  Serial.println(MensagemRecebida);
+  Serial.printf("Msg:%s / Topic%s\n",MensagemRecebida,topic);
 
   if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Escuro") {
-    digitalWrite(ledPin, LOW);
+    digitalWrite(ledPin, HIGH);
     Serial.println("luz ");
   } else if (strcmp(topic, Topic_S1_Iluminacao) == 0 && MensagemRecebida == "Claro") {
-    digitalWrite(ledPin, HIGH);
+    digitalWrite(ledPin, LOW);
     Serial.println("chegou aqui");
   }
 }
