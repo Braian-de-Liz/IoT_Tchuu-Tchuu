@@ -6,14 +6,6 @@
 WiFiClientSecure client;
 PubSubClient mqtt(client);
 
-
-
-
-const String topic = "TchuuTchuu";
-
-const String brokerUser = "";
-const String brokerPass = "";
-
 void setup() {
   Serial.begin(115200); // configura a placa para monstrar na tela 
   WiFi.begin(WIFI_SSID, WIFI_PASS); //tenta conectar na rede
@@ -38,7 +30,7 @@ while(mqtt.connect(clientID.c_str())  == 0){  // tentativa de conetar,  0 = não
 }
 
 void loop() {
-  String mensagem = ""; // cria dentro do loop para recriala toda vez que rodar o programa
+  String mensagem = ""; // cria dentro do loop para recria-la toda vez que rodar o programa
   if(Serial.available()> 0 ){  // checagem se tem palavras na "fila de espera", se tiver alguma palavra faça
    mensagem = Serial.readStringUntil('/n');    // salva a palavra digitada / lê a mensagem do usuario
     mensagem = "Davi:" + mensagem; 
