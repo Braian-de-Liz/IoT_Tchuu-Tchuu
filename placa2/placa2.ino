@@ -84,11 +84,11 @@ void loop()
 
   if (distancia1 < 50)
   {
-    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1:  Em rota de Colisão !!!(1)");
+    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1:  Em rota de Colisão !!!");
   }
   else
   {
-    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1: Caminho Livre(0)");
+    mqtt.publish(Topic_S2_Presenca1, "S2 - Presença 1: Caminho Livre");
   }
 
   if (distancia2 < 50)
