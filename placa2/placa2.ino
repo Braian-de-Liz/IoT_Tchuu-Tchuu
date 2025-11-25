@@ -10,9 +10,9 @@ const byte Trigger_1 = 5;
 const byte echo_1 = 18;
 
 const byte Trigger_2 = 4;
-const byte echo_2 = 19;
+const byte echo_2 = 12;
 
-const byte ledPin = 21;
+const byte ledPin = 25;
 
 void setup()
 {

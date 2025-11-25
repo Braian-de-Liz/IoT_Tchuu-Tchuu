@@ -32,7 +32,7 @@ const byte PWM_CHANNEL_LED_B = 25;
 
 
 void setup() {
-  Serial.begin(115200);              // configura a placa para monstrar na tela
+  Serial.begin(115200);// configura a placa para monstrar na tela
   WiFi.begin(WIFI_SSID, WIFI_PASS);  //tenta conectar na rede
   Serial.println("Conectado a rede");
   client.setInsecure();
